@@ -1,0 +1,69 @@
+import pandas as pd
+import numpy as np
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+from sklearn.metrics import accuracy_score, classification_report
+
+# Download NLTK stopwords and tokenizer
+nltk.download('stopwords')
+nltk.download('punkt')
+
+# Sample dataset (Replace this with actual dataset)
+data = {
+    "plot": [
+        "A young wizard attends a magical school and battles an evil sorcerer.",
+        "A group of superheroes team up to save the world from an alien invasion.",
+        "A detective investigates a series of murders in a small town.",
+        "A scientist invents a time machine and travels to the past.",
+        "A group of friends get trapped in a haunted house with ghosts.",
+        "A romantic tale about two lovers separated by fate.",
+    ],
+    "genre": ["Fantasy", "Action", "Mystery", "Sci-Fi", "Horror", "Romance"]
+}
+
+df = pd.DataFrame(data)
+
+# Text Preprocessing Function
+def clean_text(text):
+    text = text.lower()  # Convert to lowercase
+    text = re.sub(r'\W', ' ', text)  # Remove special characters
+    text = re.sub(r'\s+', ' ', text)  # Remove extra spaces
+    words = word_tokenize(text)  # Tokenization
+    words = [word for word in words if word not in stopwords.words('english')]  # Remove stopwords
+    return " ".join(words)
+
+df['cleaned_plot'] = df['plot'].apply(clean_text)
+
+# Convert text to numerical representation using TF-IDF
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(df['cleaned_plot'])
+y = df['genre']
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a Logistic Regression Model
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Evaluate the model
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+
+# Function to Predict Genre for a New Movie
+def predict_genre(plot_summary):
+    cleaned_summary = clean_text(plot_summary)
+    transformed_text = vectorizer.transform([cleaned_summary])
+    prediction = model.predict(transformed_text)
+    return prediction[0]
+
+# Example prediction
+new_movie_plot = "A young girl discovers she has magical powers and must save her kingdom."
+print("Predicted Genre:", predict_genre(new_movie_plot))
