@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Your Name</h1>
+        <p>Web Developer | Designer | Freelancer</p>
+    </header>
+    
+    <section id="about">
+        <img src="your-image.jpg" alt="Your Name">
+        <p>Hi, I'm [Your Name], a passionate web developer with experience in HTML, CSS, and JavaScript.</p>
+    </section>
+    
+    <section id="skills">
+        <h2>Skills</h2>
+        <ul>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Node.js</li>
+        </ul>
+    </section>
+    
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project">
+            <h3>Project Title</h3>
+            <p>Short project description.</p>
+            <img src="project-image.jpg" alt="Project Screenshot">
+        </div>
+    </section>
+    
+    <section id="resume">
+        <h2>Resume</h2>
+        <a href="resume.pdf" download>Download My Resume</a>
+    </section>
+    
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: your.email@example.com</p>
+        <p>Phone: +123 456 7890</p>
+    </section>
+    
+    <footer>
+        <p>&copy; 2025 Your Name. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
